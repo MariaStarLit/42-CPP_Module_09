@@ -1,4 +1,4 @@
-NAME = ex00
+NAME = btc
 
 CXX = c++
 CXXFLAGS = -Wall -Werror -Wextra -std=c++98
@@ -32,4 +32,4 @@ fclean: clean
 re: fclean all
 
 v:
-	@valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --log-file="val_log.txt" ./ex00
+	@valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --log-file="val_log.txt" ./btc
