@@ -32,4 +32,4 @@ fclean: clean
 re: fclean all
 
 v:
-	@valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --log-file="val_log.txt" ./btc
+	@valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --log-file="val_log.txt" ./btc input.csv
