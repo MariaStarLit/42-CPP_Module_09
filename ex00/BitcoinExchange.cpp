@@ -118,10 +118,10 @@ bool BitcoinExchange::validDate(const std::string &date) const
 		if (i == 4 || i == 7)
 		{
 			if (date[i] != '-')
-				return false;
+				return (false);
 		}
 		else if (!std::isdigit(date[i]))
-			return false;
+			return (false);
 	}
 
 	int year = std::atoi(date.substr(0, 4).c_str());
@@ -130,13 +130,15 @@ bool BitcoinExchange::validDate(const std::string &date) const
 	int days_of_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	//std::cout << year << "-" << month << "-" << day << std::endl;
 
-	if (year < 2009 || month < 1 || month > 12)
-		return false;
+	if (year < 2009 || year > 2024 || month < 1 || month > 12)
+		return (false);
+	if (year == 2024 && (month > 10 || (month == 10 && day > 7)))
+		return (false);
 	if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))
 		days_of_month[1] = 29;
 	if (day < 1 || day > days_of_month[month - 1])
-		return false;
-	return true;
+		return (false);
+	return (true);
 }
 
 float BitcoinExchange::validValue(const std::string &val, char sep)
