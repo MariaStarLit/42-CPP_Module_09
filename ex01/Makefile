@@ -32,4 +32,4 @@ fclean: clean
 re: fclean all
 
 v:
-	@valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --log-file="val_log.txt" ./RPN
+	@valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --log-file="val_log.txt" ./RPN "8 9 * 9 - 9 - 9 - 4 - 1 +"

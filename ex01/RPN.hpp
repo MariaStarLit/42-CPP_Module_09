@@ -10,17 +10,24 @@
 
 # include <iostream>
 # include <string>
+# include <stack>
+# include <sstream>
+# include <cstdlib>
 
 class RPN
 {
 	private:
-
-	public:
-
+		static std::stack<double> _exp;
+		static double _res;
 		RPN();					//Default Constructor
 		RPN(const RPN &copy);	//Copy Constructor
 		~RPN();					//Destructor
 
 		//Operator
 		RPN &operator=(const RPN &copy);
+
+	public:
+		//Member Functions
+		static void	calculate(std::string expression);
+		static void executeOperation(char op);
 };
