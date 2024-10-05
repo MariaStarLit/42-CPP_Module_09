@@ -43,7 +43,7 @@ void	RPN::calculate(std::string exp)
 		}
 		if ((std::isdigit(pile[0])))
 			_exp.push(pile[0] - 48);
-		else if (op.find(pile[0]) != std::string::npos)
+		else if (pile.length() == 1 && op.find(pile[0]) != std::string::npos)
 		{
 			if (_exp.size() < 2)
 			{
