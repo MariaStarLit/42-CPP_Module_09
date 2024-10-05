@@ -142,7 +142,7 @@ bool BitcoinExchange::validDate(const std::string &date) const
 float BitcoinExchange::validValue(const std::string &val, char sep)
 {
 	int i = 0;
-	if (val.empty())
+	if (val.empty() || val == "-" || val == "+")
 	{
 		std::cout << RED << "Error: missing a number." << RESET << std::endl;
 		return (-1);

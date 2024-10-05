@@ -4,7 +4,7 @@ int main(int argc, char **argv)
 {
 	if (argc != 2)
 	{
-		std::cout << RED << "Error! Please input a file." << RESET << std::endl;
+		std::cout << RED << "Error: could not open file." << RESET << std::endl;
 		std::cout << YELLOW << "Example: ./btc file_name" << RESET << std::endl;
 		return (1);
 	}
@@ -16,7 +16,7 @@ int main(int argc, char **argv)
 	}
 	catch (const std::exception &e)
 	{
-		std::cerr << "exception: " << e.what() << std::endl;
+		std::cerr << e.what();
 		return (2);
 	}
 	return (0);
