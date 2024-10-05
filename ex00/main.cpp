@@ -2,7 +2,6 @@
 
 int main(int argc, char **argv)
 {
-	(void)argv;
 	if (argc != 2)
 	{
 		std::cout << RED << "Error! Please input a file." << RESET << std::endl;
