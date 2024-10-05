@@ -25,15 +25,16 @@ class BitcoinExchange
 	public:
 		BitcoinExchange();											//Default Constructor
 		BitcoinExchange(const BitcoinExchange &copy);				//Copy Constructor
-		BitcoinExchange &operator=(const BitcoinExchange &copy);	//Copy Assiment Operator
 		~BitcoinExchange();											//Destructor
+		BitcoinExchange &operator=(const BitcoinExchange &copy);	//Copy Assiment Operator
 
 		//Member Functions
-		void	extractDatabase(void);
-		void	extractFile(const std::string &file_name);
-		float	exchangeRate(const std::string &date, float value) const;
-		bool	validDate(const std::string &date) const;
-		float	validValue(const std::string &val, char sep);
+		void		extractDatabase(void);
+		void		extractFile(const std::string &file_name);
+		float		exchangeRate(const std::string &date, float value) const;
+		bool		validDate(const std::string &date) const;
+		float		validValue(const std::string &val, char sep);
+		std::string	trim(const std::string &str);
 
 		//Struct
 		struct Data
@@ -47,6 +48,7 @@ class BitcoinExchange
 		Data	parcingFileLine(const std::string &line, bool &error);
 		Data	parcingDatabaseLine(const std::string &line, bool &error);
 
+		//Exception
 		class ParcingException : public std::exception
 		{
 			public:
