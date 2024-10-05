@@ -13,11 +13,11 @@ int main(int argc, char **argv)
 	{
 		BitcoinExchange trade;
 
-		//trade.checkfile(argv[1]);
+		trade.extractFile(argv[1]);
 	}
 	catch (const std::exception &e)
 	{
-		std::cerr << RED << "Error! " << e.what() << RESET << std::endl;
+		std::cerr << "exception: " << e.what() << std::endl;
 		return (2);
 	}
 	return (0);

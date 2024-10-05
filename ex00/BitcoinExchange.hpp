@@ -15,6 +15,7 @@
 # include <cstdlib>
 # include <fstream>
 # include <sstream>
+# include <iomanip>
 
 class BitcoinExchange
 {
@@ -28,10 +29,11 @@ class BitcoinExchange
 		~BitcoinExchange();											//Destructor
 
 		//Member Functions
-		void	checkFile(const std::string &file_name);
 		void	extractDatabase(void);
+		void	extractFile(const std::string &file_name);
+		float	exchangeRate(const std::string &date, float value) const;
 		bool	validDate(const std::string &date) const;
-		float	validValue(const std::string &val);
+		float	validValue(const std::string &val, char sep);
 
 		//Struct
 		struct Data
@@ -42,6 +44,12 @@ class BitcoinExchange
 		};
 
 		Data	parcingLine(const std::string &line, bool &error, char seperator);
-		Data	parcingInputLine(const std::string &line, bool &error);
+		Data	parcingFileLine(const std::string &line, bool &error);
 		Data	parcingDatabaseLine(const std::string &line, bool &error);
+
+		class ParcingException : public std::exception
+		{
+			public:
+				const char* what() const throw();
+		};
 };
