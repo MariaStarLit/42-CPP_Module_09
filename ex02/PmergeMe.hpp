@@ -9,19 +9,29 @@
 # define CYAN "\033[0;36m"
 
 # include <iostream>
+# include <sstream>
 # include <string>
+# include <vector>
+# include <list>
+# include <algorithm>
+# include <climits>
+# include <ctime>
 
 class PmergeMe
 {
 	private:
-	
+		PmergeMe();									//Default Constructor
+		PmergeMe(const PmergeMe &copy);				//Copy Constructor
+		PmergeMe &operator=(const PmergeMe &copy);	//Operator
+		~PmergeMe();								//Destructor
+		
+		//Member Functions
+		static void mergeInsertList(std::list<int> &list, std::list<int> &insert);
+		static void mergeInsertVector(std::vector<int> &vector, std::vector<int> &insert);
+
 	public:
-		PmergeMe();						//Default Constructor
-		PmergeMe(const PmergeMe &copy);	//Copy Constructor
-		~PmergeMe();					//Destructor
-
-		//Operator
-		PmergeMe &operator=(const PmergeMe &copy);
+		static void	sortList(std::list<int> &list);
+		static void	printList(std::list<int> &list);
+		static void	sortVector(std::vector<int> &vector);
+		static void	printVector(std::vector<int> &vector);
 };
-
-//std::ostream &operator<<(std::ostream &o, const PmergeMe &i);
