@@ -94,7 +94,6 @@ bool	PmergeMe::isSorted(void)
 			return (false);
 		}
 	}
-	std::cout << GREEN << "True!" << RESET << std::endl;
 	return (true);
 }
 
