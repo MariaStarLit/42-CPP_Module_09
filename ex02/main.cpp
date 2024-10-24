@@ -60,6 +60,8 @@ int main(int argc, char **argv)
 	sort.sortVector();
 	sort.sortList();
 
+	sort.isSorted();
+
 
 	// std::clock_t vec_start, vec_end, list_start, list_end;
 	// double vec_time, list_time;

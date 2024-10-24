@@ -71,36 +71,48 @@ void	PmergeMe::makePairVector(void)
 bool	PmergeMe::isAVectorSorted(void)
 {
 	std::vector<int>::iterator iter;
-	std::cout << PURPLE << "a: ";
 	for (iter = aVec.begin(); iter != aVec.end(); ++iter)
 	{
-		std::cout << *iter << " ";
+		if ((iter + 1) == aVec.end())
+				break;
+		if (*iter > *(iter + 1))
+			return (false);
+	}
+	return (true);
+}
+
+bool	PmergeMe::isSorted(void)
+{
+	std::vector<int>::iterator iter;
+	for (iter = aVec.begin(); iter != aVec.end(); ++iter)
+	{
+		if ((iter + 1) == aVec.end())
+				break;
 		if (*iter > *(iter + 1))
 		{
-			std::cout << RESET << " false" << std::endl;
+			std::cout << RED << "False" << RESET << std::endl;
 			return (false);
 		}
-			
 	}
-	std::cout << RESET << " true" << std::endl;
+	std::cout << GREEN << "True!" << RESET << std::endl;
 	return (true);
 }
 
 
 void	PmergeMe::sortPairVector(void)
 {
-	std::cout << GREEN << "a: ";
-	std::vector<int>::iterator iter;
-	for (iter = aVec.begin(); iter != aVec.end(); ++iter)
-	{
-		std::cout << *iter << " ";
-	}
-	std::cout << std::endl << CYAN << "b: ";
-	for (iter = bVec.begin(); iter != bVec.end(); ++iter)
-	{
-		std::cout << *iter << " ";
-	}
-	std::cout << RESET << std::endl;
+	// std::cout << GREEN << "a: ";
+	// std::vector<int>::iterator iter;
+	// for (iter = aVec.begin(); iter != aVec.end(); ++iter)
+	// {
+	// 	std::cout << *iter << " ";
+	// }
+	// std::cout << std::endl << CYAN << "b: ";
+	// for (iter = bVec.begin(); iter != bVec.end(); ++iter)
+	// {
+	// 	std::cout << *iter << " ";
+	// }
+	// std::cout << RESET << std::endl;
 	std::vector<int>::iterator a_it;
 	std::vector<int>::iterator b_it;
 	while (!isAVectorSorted())
@@ -120,19 +132,6 @@ void	PmergeMe::sortPairVector(void)
 			b_it++;
 		}
 	}
-	// aVec.insert(aVec.begin(), bVec.front());
-	// bVec.erase(bVec.begin());
-	std::cout << GREEN << "a: ";
-	for (iter = aVec.begin(); iter != aVec.end(); ++iter)
-	{
-		std::cout << *iter << " ";
-	}
-	std::cout << std::endl << CYAN << "b: ";
-	for (iter = bVec.begin(); iter != bVec.end(); ++iter)
-	{
-		std::cout << *iter << " ";
-	}
-	std::cout << RESET << std::endl;
 }
 
 const int PmergeMe::jacobsthal[35] =
