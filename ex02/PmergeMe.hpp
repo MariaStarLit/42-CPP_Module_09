@@ -22,16 +22,35 @@ class PmergeMe
 	private:
 		PmergeMe();									//Default Constructor
 		PmergeMe(const PmergeMe &copy);				//Copy Constructor
-		PmergeMe &operator=(const PmergeMe &copy);	//Operator
-		~PmergeMe();								//Destructor
-		
-		//Member Functions
-		static void mergeInsertList(std::list<int> &list, std::list<int> &insert);
-		static void mergeInsertVector(std::vector<int> &vector, std::vector<int> &insert);
+		PmergeMe &operator=(const PmergeMe &copy);	//Copy Operator
+
+		bool	odd_nbr;
+		int		straggler;
+		static const int jacobsthal[35];
+
+		std::vector<int>inputVec;
+		std::vector<int>_posVec;
+		std::vector<int>aVec;
+		std::vector<int>bVec;
+		std::vector<int>_jacobVec;
+
+		std::list<int>inputList;
+		std::list<int>_posList;
+		std::list<int>aList;
+		std::list<int>bList;
+		std::list<int>_jacobList;
 
 	public:
-		static void	sortList(std::list<int> &list);
-		static void	printList(std::list<int> &list);
-		static void	sortVector(std::vector<int> &vector);
-		static void	printVector(std::vector<int> &vector);
+		PmergeMe(std::vector<int> _aux);			//Constructor
+		~PmergeMe();								//Destructor
+
+		//Member Functions
+		void	makePairList(void);
+		void	sortList(void);
+		
+		void	makePairVector(void);
+		bool	isAVectorSorted(void);
+		void	sortPairVector(void);
+		void	insert_vector(void);
+		void	sortVector(void);
 };
