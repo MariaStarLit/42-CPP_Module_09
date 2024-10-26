@@ -48,6 +48,7 @@ class PmergeMe
 		bool	isAVectorSorted(void);
 		bool	isSorted(void);
 		void	sortPairVector(void);
-		void	insert_vector(void);
+		std::vector<int>::iterator	getPositionVec(int nbr);
+		void	insertBVector(void);
 		void	sortVector(void);
 };

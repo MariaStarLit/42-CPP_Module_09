@@ -75,7 +75,7 @@ bool	PmergeMe::isAVectorSorted(void)
 	{
 		if ((iter + 1) == aVec.end())
 				break;
-		if (*iter > *(iter + 1))
+		if (*iter < *(iter + 1))
 			return (false);
 	}
 	return (true);
@@ -88,12 +88,13 @@ bool	PmergeMe::isSorted(void)
 	{
 		if ((iter + 1) == aVec.end())
 				break;
-		if (*iter > *(iter + 1))
+		if (*iter < *(iter + 1))
 		{
 			std::cout << RED << "False" << RESET << std::endl;
 			return (false);
 		}
 	}
+	std::cout << GREEN << "True!" << RESET << std::endl;
 	return (true);
 }
 
@@ -122,7 +123,7 @@ void	PmergeMe::sortPairVector(void)
 		{
 			if ((a_it + 1) == aVec.end())
 				break;
-			if (*a_it > *(a_it + 1))
+			if (*a_it < *(a_it + 1))
 			{
 				std::iter_swap(a_it, a_it + 1);
 				std::iter_swap(b_it, b_it + 1);
@@ -141,7 +142,24 @@ const int PmergeMe::jacobsthal[35] =
 	1431655765
 };
 
-void	PmergeMe::insert_vector()
+std::vector<int>::iterator PmergeMe::getPositionVec(int nbr)
+{
+	std::vector<int>::iterator it;
+	//std::cout << PURPLE << "position: ";
+	for (it = aVec.begin(); it != aVec.end(); ++it)
+	{
+		//std::cout << *it << " ";
+		if (*it < nbr)
+		{
+			//std::cout << RESET << std::endl;
+			return(it);
+		}
+	}
+	//std::cout << RESET << std::endl;
+	return(aVec.end());
+}
+
+void	PmergeMe::insertBVector()
 {
 	int jal_index = 0;
 	while (jacobsthal[jal_index] < (int)bVec.size())
@@ -152,7 +170,7 @@ void	PmergeMe::insert_vector()
 		{
 			std::vector<int>::iterator bVec_it = bVec.begin() + position;
 			if (bVec_it != bVec.end())
-				aVec.insert(std::upper_bound(aVec.begin(), aVec.end(), *bVec_it), *bVec_it);
+				aVec.insert(getPositionVec(*bVec_it), *bVec_it);
 			position--;
 		}
 	}
@@ -160,8 +178,7 @@ void	PmergeMe::insert_vector()
 	{
 		std::vector<int>::iterator insertionPos;
 		odd_nbr = false;
-		insertionPos = std::upper_bound(aVec.begin(), aVec.end(),
-			straggler);
+		insertionPos = getPositionVec(straggler);
 		aVec.insert(insertionPos, straggler);
 	}
 }
@@ -169,25 +186,26 @@ void	PmergeMe::insert_vector()
 void	PmergeMe::sortVector(void)
 {
 	std::vector<int>::iterator	it;
+	std::vector<int>::reverse_iterator	rit;
 	std::clock_t				vec_start, vec_end;
 	double						vec_time;
 
-	std::cout << "Before: ";
+	std::cout << BLUE << "Before: ";
 	for(it = this->inputVec.begin(); it != this->inputVec.end(); it++)
 		std::cout << *it << " ";
-	std::cout<<std::endl;
+	std::cout << RESET << std::endl;
 	
 	vec_start = std::clock();
 	makePairVector();
 	sortPairVector();
-	insert_vector();
+	insertBVector();
 	vec_end = std::clock();
 	vec_time = static_cast<double>(vec_end - vec_start) / CLOCKS_PER_SEC;
 
-	std::cout << "After:  ";
-	for(it = this->aVec.begin(); it != this->aVec.end(); it++)
-		std::cout << *it << " ";
-	std::cout << std::endl;
+	std::cout << CYAN << "After:  ";
+	for(rit = this->aVec.rbegin(); rit != this->aVec.rend(); rit++)
+		std::cout << *rit << " ";
+	std::cout << RESET << std::endl;
 
 	std::cout << "Time to process a range of " << this->inputVec.size() 
 	<< " elements with std::verctor : " << std::fixed << vec_time << "us" << std::endl;
