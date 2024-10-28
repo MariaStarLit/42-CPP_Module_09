@@ -235,18 +235,6 @@ bool	PmergeMe::isAVectorSorted(void)
 
 void	PmergeMe::sortPairVector(void)
 {
-	// std::cout << BLUE << "a: " << RESET;
-	// std::vector<int>::iterator iter;
-	// for (iter = aVec.begin(); iter != aVec.end(); ++iter)
-	// {
-	// 	std::cout << *iter << " ";
-	// }
-	// std::cout << std::endl << BLUE << "b: " << RESET;
-	// for (iter = bVec.begin(); iter != bVec.end(); ++iter)
-	// {
-	// 	std::cout << *iter << " ";
-	// }
-	// std::cout << std::endl;
 	std::vector<int>::iterator a_it;
 	std::vector<int>::iterator b_it;
 	while (!isAVectorSorted())
@@ -266,6 +254,18 @@ void	PmergeMe::sortPairVector(void)
 			b_it++;
 		}
 	}
+	// std::cout << BLUE << "a: " << RESET;
+	// std::vector<int>::iterator iter;
+	// for (iter = aVec.begin(); iter != aVec.end(); ++iter)
+	// {
+	// 	std::cout << *iter << " ";
+	// }
+	// std::cout << std::endl << BLUE << "b: " << RESET;
+	// for (iter = bVec.begin(); iter != bVec.end(); ++iter)
+	// {
+	// 	std::cout << *iter << " ";
+	// }
+	// std::cout << std::endl;
 }
 
 std::vector<int>::iterator PmergeMe::getPositionVector(int nbr)
