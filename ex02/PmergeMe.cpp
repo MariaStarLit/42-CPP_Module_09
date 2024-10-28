@@ -34,18 +34,169 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &copy)
 PmergeMe::~PmergeMe()
 {}
 
-//List
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< List >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 void	PmergeMe::makePairList(void)
 {
+	if (this->inputList.size() % 2 != 0)
+	{
+		this->odd_nbr = true;
+		this->straggler = this->inputList.back();
+		this->inputList.pop_back();
+	}
 
+	std::list<int>::iterator a_first, a_second;
+	a_first = inputList.begin(); 
+	a_second = inputList.begin();
+	std::advance(a_second, 1);
+	while(a_first != inputList.end())
+	{
+		if (a_second == inputList.end())
+			break;
+		
+		if (*a_first > *a_second)
+			std::iter_swap(a_first, a_second);
+		aList.push_back(*a_first);
+		bList.push_back(*a_second);
+		std::advance(a_first, 2);
+		std::advance(a_second, 2);
+	}
+}
+
+bool	PmergeMe::isAListSorted(void)
+{
+	std::list<int>::iterator a_first, a_second;
+	a_second = aList.begin();
+	std::advance(a_second, 1);
+	for (a_first = aList.begin(); a_first != aList.end(); ++a_first, ++a_second)
+	{
+		if (a_second == aList.end())
+				break;
+		if (*a_first < *a_second)
+			return (false);
+	}
+	return (true);
+}
+
+void	PmergeMe::sortPairList(void)
+{
+	std::list<int>::iterator a_first, a_second, b_first, b_second;
+	while (!isAListSorted())
+	{
+		a_first = aList.begin();
+		a_second = aList.begin();
+		b_first = bList.begin();
+		b_second = bList.begin();
+		std::advance(a_second, 1);
+		std::advance(b_second, 1);
+		while((a_first != aList.end()) || (b_first != bList.end()))
+		{
+			if (a_second == aList.end())
+				break;
+			if (*a_first < *a_second)
+			{
+				std::iter_swap(a_first, a_second);
+				std::iter_swap(b_first, b_second);
+			}
+			a_first++;
+			b_first++;
+			a_second++;
+			b_second++;
+		}
+	}
+}
+
+std::list<int>::iterator PmergeMe::getPositionList(int nbr)
+{
+	std::list<int>::iterator it;
+	for (it = aList.begin(); it != aList.end(); ++it)
+	{
+		if (*it < nbr)
+			return(it);
+	}
+	return(aList.end());
+}
+
+const int PmergeMe::jacobsthal[34] =
+{
+	0, 1, 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923,
+	21845, 43691, 87381, 174763, 349525, 699051, 1398101, 2796203, 5592405,
+	11184811, 22369621, 44739243, 89478485, 178956971, 357913941, 715827883,
+	1431655765
+};
+
+void	PmergeMe::insertBList()
+{
+	int ji = 0;
+	while (jacobsthal[ji] < (int)bList.size())
+	{
+		++ji;
+		int position = (jacobsthal[ji] < (int)bList.size()) ? jacobsthal[ji] : bList.size();
+		while (jacobsthal[ji - 1] < position)
+		{
+			std::list<int>::iterator bList_it = bList.begin();
+			std::advance(bList_it, position - 1);
+			if (bList_it != bList.end())
+				aList.insert(getPositionList(*bList_it), *bList_it);
+			position--;
+		}
+	}
+	if (odd_nbr == true)
+	{
+		std::list<int>::iterator insertionPos;
+		odd_nbr = false;
+		insertionPos = getPositionList(straggler);
+		aList.insert(insertionPos, straggler);
+	}
 }
 
 void	PmergeMe::sortList(void)
 {
+	std::list<int>::iterator			it;
+	std::list<int>::reverse_iterator	rit;
+	std::clock_t						list_start, list_end;
+	double								list_time;
 
+	std::cout << BLUE << "Before: ";
+	for(it = this->inputList.begin(); it != this->inputList.end(); it++)
+		std::cout << *it << " ";
+	std::cout << RESET << std::endl;
+	
+	list_start = std::clock();
+	makePairList();
+	sortPairList();
+	insertBList();
+	list_end = std::clock();
+	list_time = static_cast<double>(list_end - list_start) / CLOCKS_PER_SEC;
+
+	std::cout << CYAN << "After:  ";
+	for(rit = this->aList.rbegin(); rit != this->aList.rend(); rit++)
+		std::cout << *rit << " ";
+	std::cout << RESET << std::endl;
+
+	std::cout << "Time to process a range of " << this->inputList.size() 
+	<< " elements with std::list : " << std::fixed << list_time << "us" << std::endl;
 }
 
-//Vector
+bool	PmergeMe::isSortedList(void)
+{
+	std::list<int>::iterator a_first, a_second;
+	a_second = aList.begin();
+	std::advance(a_second, 1);
+	for (a_first = aList.begin(); a_first != aList.end(); ++a_first, ++a_second)
+	{
+		if (a_second == aList.end())
+				break;
+		if (*a_first < *a_second)
+		{
+			std::cout << RED <<"False" << RESET << std::endl;
+			return (false);
+		}
+	}
+	std::cout << GREEN << "True!" << RESET << std::endl;
+	return (true);
+}
+
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Vector >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 void	PmergeMe::makePairVector(void)
 {
 	if (this->inputVec.size() % 2 != 0)
@@ -80,24 +231,6 @@ bool	PmergeMe::isAVectorSorted(void)
 	}
 	return (true);
 }
-
-bool	PmergeMe::isSorted(void)
-{
-	std::vector<int>::iterator iter;
-	for (iter = aVec.begin(); iter != aVec.end(); ++iter)
-	{
-		if ((iter + 1) == aVec.end())
-				break;
-		if (*iter < *(iter + 1))
-		{
-			std::cout << RED << "False" << RESET << std::endl;
-			return (false);
-		}
-	}
-	std::cout << GREEN << "True!" << RESET << std::endl;
-	return (true);
-}
-
 
 void	PmergeMe::sortPairVector(void)
 {
@@ -134,43 +267,30 @@ void	PmergeMe::sortPairVector(void)
 	}
 }
 
-const int PmergeMe::jacobsthal[35] =
-{
-	-1, 0, 1, 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923,
-	21845, 43691, 87381, 174763, 349525, 699051, 1398101, 2796203, 5592405,
-	11184811, 22369621, 44739243, 89478485, 178956971, 357913941, 715827883,
-	1431655765
-};
-
-std::vector<int>::iterator PmergeMe::getPositionVec(int nbr)
+std::vector<int>::iterator PmergeMe::getPositionVector(int nbr)
 {
 	std::vector<int>::iterator it;
-	//std::cout << PURPLE << "position: ";
 	for (it = aVec.begin(); it != aVec.end(); ++it)
 	{
-		//std::cout << *it << " ";
 		if (*it < nbr)
-		{
-			//std::cout << RESET << std::endl;
 			return(it);
-		}
 	}
-	//std::cout << RESET << std::endl;
 	return(aVec.end());
 }
 
 void	PmergeMe::insertBVector()
 {
-	int jal_index = 0;
-	while (jacobsthal[jal_index] < (int)bVec.size())
+	int ji = 0;
+	while (jacobsthal[ji] < (int)bVec.size())
 	{
-		++jal_index;
-		int position = (jacobsthal[jal_index] < (int)bVec.size()) ? jacobsthal[jal_index] : bVec.size() - 1;
-		while (jacobsthal[jal_index - 1] < position)
+		++ji;
+		int position = (jacobsthal[ji] < (int)bVec.size()) ? jacobsthal[ji] : bVec.size();
+		while (jacobsthal[ji - 1] < position)
 		{
-			std::vector<int>::iterator bVec_it = bVec.begin() + position;
+			//std::cout << "B" << position << ", ";
+			std::vector<int>::iterator bVec_it = bVec.begin() + position - 1;
 			if (bVec_it != bVec.end())
-				aVec.insert(getPositionVec(*bVec_it), *bVec_it);
+				aVec.insert(getPositionVector(*bVec_it), *bVec_it);
 			position--;
 		}
 	}
@@ -178,9 +298,10 @@ void	PmergeMe::insertBVector()
 	{
 		std::vector<int>::iterator insertionPos;
 		odd_nbr = false;
-		insertionPos = getPositionVec(straggler);
+		insertionPos = getPositionVector(straggler);
 		aVec.insert(insertionPos, straggler);
 	}
+	std::cout << std::endl;
 }
 
 void	PmergeMe::sortVector(void)
@@ -190,10 +311,10 @@ void	PmergeMe::sortVector(void)
 	std::clock_t				vec_start, vec_end;
 	double						vec_time;
 
-	std::cout << BLUE << "Before: ";
-	for(it = this->inputVec.begin(); it != this->inputVec.end(); it++)
-		std::cout << *it << " ";
-	std::cout << RESET << std::endl;
+	// std::cout << BLUE << "Before: ";
+	// for(it = this->inputVec.begin(); it != this->inputVec.end(); it++)
+	// 	std::cout << *it << " ";
+	// std::cout << RESET << std::endl;
 	
 	vec_start = std::clock();
 	makePairVector();
@@ -202,11 +323,29 @@ void	PmergeMe::sortVector(void)
 	vec_end = std::clock();
 	vec_time = static_cast<double>(vec_end - vec_start) / CLOCKS_PER_SEC;
 
-	std::cout << CYAN << "After:  ";
-	for(rit = this->aVec.rbegin(); rit != this->aVec.rend(); rit++)
-		std::cout << *rit << " ";
-	std::cout << RESET << std::endl;
+	// std::cout << CYAN << "After:  ";
+	// for(rit = this->aVec.rbegin(); rit != this->aVec.rend(); rit++)
+	// 	std::cout << *rit << " ";
+	// std::cout << RESET << std::endl;
 
 	std::cout << "Time to process a range of " << this->inputVec.size() 
 	<< " elements with std::verctor : " << std::fixed << vec_time << "us" << std::endl;
+}
+
+//final check
+bool	PmergeMe::isSortedVector(void)
+{
+	std::vector<int>::iterator iter;
+	for (iter = aVec.begin(); iter != aVec.end(); ++iter)
+	{
+		if ((iter + 1) == aVec.end())
+				break;
+		if (*iter < *(iter + 1))
+		{
+			std::cout << RED << "False" << RESET << std::endl;
+			return (false);
+		}
+	}
+	std::cout << GREEN << "True!" << RESET << std::endl;
+	return (true);
 }

@@ -20,13 +20,9 @@
 class PmergeMe
 {
 	private:
-		PmergeMe();									//Default Constructor
-		PmergeMe(const PmergeMe &copy);				//Copy Constructor
-		PmergeMe &operator=(const PmergeMe &copy);	//Copy Operator
-
-		bool	odd_nbr;
-		int		straggler;
-		static const int jacobsthal[35];
+		bool				odd_nbr;
+		int					straggler;
+		static const int	jacobsthal[34];
 
 		std::vector<int>inputVec;
 		std::vector<int>aVec;
@@ -36,19 +32,30 @@ class PmergeMe
 		std::list<int>aList;
 		std::list<int>bList;
 
+		PmergeMe();									//Default Constructor
+		PmergeMe(const PmergeMe &copy);				//Copy Constructor
+		PmergeMe &operator=(const PmergeMe &copy);	//Copy Operator
+
 	public:
 		PmergeMe(std::vector<int> _aux);			//Constructor
 		~PmergeMe();								//Destructor
 
 		//Member Functions
-		void	makePairList(void);
-		void	sortList(void);
+		void						makePairList(void);
+		bool						isAListSorted(void);
+		void						sortPairList(void);
+		std::list<int>::iterator	getPositionList(int nbr);
+		void						insertBList(void);
+		void						sortList(void);
+
+		bool						isSortedList(void);
 		
-		void	makePairVector(void);
-		bool	isAVectorSorted(void);
-		bool	isSorted(void);
-		void	sortPairVector(void);
-		std::vector<int>::iterator	getPositionVec(int nbr);
-		void	insertBVector(void);
-		void	sortVector(void);
+		void						makePairVector(void);
+		bool						isAVectorSorted(void);
+		void						sortPairVector(void);
+		std::vector<int>::iterator	getPositionVector(int nbr);
+		void						insertBVector(void);
+		void						sortVector(void);
+		
+		bool						isSortedVector(void);
 };
