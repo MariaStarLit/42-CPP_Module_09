@@ -156,10 +156,10 @@ void	PmergeMe::sortList(void)
 	std::clock_t						list_start, list_end;
 	double								list_time;
 
-	std::cout << BLUE << "Before: ";
-	for(it = this->inputList.begin(); it != this->inputList.end(); it++)
-		std::cout << *it << " ";
-	std::cout << RESET << std::endl;
+	// std::cout << CYAN << "Before: " << RESET;
+	// for(it = this->inputList.begin(); it != this->inputList.end(); it++)
+	// 	std::cout << *it << " ";
+	// std::cout << std::endl;
 	
 	list_start = std::clock();
 	makePairList();
@@ -168,13 +168,13 @@ void	PmergeMe::sortList(void)
 	list_end = std::clock();
 	list_time = static_cast<double>(list_end - list_start) / CLOCKS_PER_SEC;
 
-	std::cout << CYAN << "After:  ";
-	for(rit = this->aList.rbegin(); rit != this->aList.rend(); rit++)
-		std::cout << *rit << " ";
-	std::cout << RESET << std::endl;
+	// std::cout << CYAN << "After:  " << RESET;
+	// for(rit = this->aList.rbegin(); rit != this->aList.rend(); rit++)
+	// 	std::cout << *rit << " ";
+	// std::cout << std::endl;
 
-	std::cout << "Time to process a range of " << this->inputList.size() 
-	<< " elements with std::list : " << std::fixed << list_time << "us" << std::endl;
+	std::cout << CYAN << "Time to process a range of " << this->inputList.size() 
+	<< " elements with std::list    : " << std::fixed << list_time << "us" << std::endl;
 }
 
 bool	PmergeMe::isSortedList(void)
@@ -182,13 +182,14 @@ bool	PmergeMe::isSortedList(void)
 	std::list<int>::iterator a_first, a_second;
 	a_second = aList.begin();
 	std::advance(a_second, 1);
+	std::cout << CYAN << "List:   " << RESET;
 	for (a_first = aList.begin(); a_first != aList.end(); ++a_first, ++a_second)
 	{
 		if (a_second == aList.end())
 				break;
 		if (*a_first < *a_second)
 		{
-			std::cout << RED <<"False" << RESET << std::endl;
+			std::cout << RED << "False" << RESET << std::endl;
 			return (false);
 		}
 	}
@@ -234,18 +235,18 @@ bool	PmergeMe::isAVectorSorted(void)
 
 void	PmergeMe::sortPairVector(void)
 {
-	// std::cout << GREEN << "a: ";
+	// std::cout << BLUE << "a: " << RESET;
 	// std::vector<int>::iterator iter;
 	// for (iter = aVec.begin(); iter != aVec.end(); ++iter)
 	// {
 	// 	std::cout << *iter << " ";
 	// }
-	// std::cout << std::endl << CYAN << "b: ";
+	// std::cout << std::endl << BLUE << "b: " << RESET;
 	// for (iter = bVec.begin(); iter != bVec.end(); ++iter)
 	// {
 	// 	std::cout << *iter << " ";
 	// }
-	// std::cout << RESET << std::endl;
+	// std::cout << std::endl;
 	std::vector<int>::iterator a_it;
 	std::vector<int>::iterator b_it;
 	while (!isAVectorSorted())
@@ -301,7 +302,7 @@ void	PmergeMe::insertBVector()
 		insertionPos = getPositionVector(straggler);
 		aVec.insert(insertionPos, straggler);
 	}
-	std::cout << std::endl;
+	// std::cout << std::endl;
 }
 
 void	PmergeMe::sortVector(void)
@@ -311,10 +312,10 @@ void	PmergeMe::sortVector(void)
 	std::clock_t				vec_start, vec_end;
 	double						vec_time;
 
-	// std::cout << BLUE << "Before: ";
-	// for(it = this->inputVec.begin(); it != this->inputVec.end(); it++)
-	// 	std::cout << *it << " ";
-	// std::cout << RESET << std::endl;
+	std::cout << PURPLE << "Before: " << RESET;
+	for(it = this->inputVec.begin(); it != this->inputVec.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl;
 	
 	vec_start = std::clock();
 	makePairVector();
@@ -323,12 +324,12 @@ void	PmergeMe::sortVector(void)
 	vec_end = std::clock();
 	vec_time = static_cast<double>(vec_end - vec_start) / CLOCKS_PER_SEC;
 
-	// std::cout << CYAN << "After:  ";
-	// for(rit = this->aVec.rbegin(); rit != this->aVec.rend(); rit++)
-	// 	std::cout << *rit << " ";
-	// std::cout << RESET << std::endl;
+	std::cout << PURPLE << "After:  " << RESET;
+	for(rit = this->aVec.rbegin(); rit != this->aVec.rend(); rit++)
+		std::cout << *rit << " ";
+	std::cout << std::endl;
 
-	std::cout << "Time to process a range of " << this->inputVec.size() 
+	std::cout << PURPLE << "Time to process a range of " << this->inputVec.size() 
 	<< " elements with std::verctor : " << std::fixed << vec_time << "us" << std::endl;
 }
 
@@ -336,6 +337,7 @@ void	PmergeMe::sortVector(void)
 bool	PmergeMe::isSortedVector(void)
 {
 	std::vector<int>::iterator iter;
+	std::cout << PURPLE << "Vector: " << RESET;
 	for (iter = aVec.begin(); iter != aVec.end(); ++iter)
 	{
 		if ((iter + 1) == aVec.end())

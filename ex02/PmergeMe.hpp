@@ -41,21 +41,21 @@ class PmergeMe
 		~PmergeMe();								//Destructor
 
 		//Member Functions
+		//List
 		void						makePairList(void);
 		bool						isAListSorted(void);
 		void						sortPairList(void);
 		std::list<int>::iterator	getPositionList(int nbr);
 		void						insertBList(void);
 		void						sortList(void);
-
 		bool						isSortedList(void);
-		
+
+		//Vector
 		void						makePairVector(void);
 		bool						isAVectorSorted(void);
 		void						sortPairVector(void);
 		std::vector<int>::iterator	getPositionVector(int nbr);
 		void						insertBVector(void);
 		void						sortVector(void);
-		
 		bool						isSortedVector(void);
 };
