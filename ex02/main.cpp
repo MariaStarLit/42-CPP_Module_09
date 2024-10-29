@@ -40,11 +40,16 @@ int main(int argc, char **argv)
 	else if (argc == 2)
 	{
 		std::istringstream aux(argv[1]);
-		std::string input;
+		std::string input = "";
 		while (aux >> input)
 		{
 			if (!validInput(input, v_aux))
 				return (1);
+		}
+		if (input.empty())
+		{
+			std::cout << RED << "Error! Sequence not found." << RESET << std::endl;
+			return (1);
 		}
 	}
 	else

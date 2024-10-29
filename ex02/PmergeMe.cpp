@@ -103,6 +103,18 @@ void	PmergeMe::sortPairList(void)
 			b_second++;
 		}
 	}
+	// std::cout << BLUE << "a: " << RESET;
+	// std::list<int>::iterator iter;
+	// for (iter = aList.begin(); iter != aList.end(); ++iter)
+	// {
+	// 	std::cout << *iter << " ";
+	// }
+	// std::cout << std::endl << BLUE << "b: " << RESET;
+	// for (iter = bList.begin(); iter != bList.end(); ++iter)
+	// {
+	// 	std::cout << *iter << " ";
+	// }
+	// std::cout << std::endl;
 }
 
 std::list<int>::iterator PmergeMe::getPositionList(int nbr)
@@ -133,6 +145,7 @@ void	PmergeMe::insertBList()
 		int position = (jacobsthal[ji] < (int)bList.size()) ? jacobsthal[ji] : bList.size();
 		while (jacobsthal[ji - 1] < position)
 		{
+			//std::cout << YELLOW << "B" << position << ", ";
 			std::list<int>::iterator bList_it = bList.begin();
 			std::advance(bList_it, position - 1);
 			if (bList_it != bList.end())
@@ -147,6 +160,7 @@ void	PmergeMe::insertBList()
 		insertionPos = getPositionList(straggler);
 		aList.insert(insertionPos, straggler);
 	}
+	//std::cout << RESET << std::endl;
 }
 
 void	PmergeMe::sortList(void)
@@ -288,7 +302,7 @@ void	PmergeMe::insertBVector()
 		int position = (jacobsthal[ji] < (int)bVec.size()) ? jacobsthal[ji] : bVec.size();
 		while (jacobsthal[ji - 1] < position)
 		{
-			//std::cout << "B" << position << ", ";
+			//std::cout << YELLOW << "B" << position << ", ";
 			std::vector<int>::iterator bVec_it = bVec.begin() + position - 1;
 			if (bVec_it != bVec.end())
 				aVec.insert(getPositionVector(*bVec_it), *bVec_it);
@@ -302,15 +316,15 @@ void	PmergeMe::insertBVector()
 		insertionPos = getPositionVector(straggler);
 		aVec.insert(insertionPos, straggler);
 	}
-	// std::cout << std::endl;
+	// std::cout << RESET << std::endl;
 }
 
 void	PmergeMe::sortVector(void)
 {
-	std::vector<int>::iterator	it;
+	std::vector<int>::iterator			it;
 	std::vector<int>::reverse_iterator	rit;
-	std::clock_t				vec_start, vec_end;
-	double						vec_time;
+	std::clock_t						vec_start, vec_end;
+	double								vec_time;
 
 	std::cout << PURPLE << "Before: " << RESET;
 	for(it = this->inputVec.begin(); it != this->inputVec.end(); it++)
