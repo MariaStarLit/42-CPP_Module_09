@@ -17,11 +17,11 @@
 class RPN
 {
 	private:
-		static std::stack<double> _exp;
-		static double _res;
-		RPN();					//Default Constructor
-		RPN(const RPN &copy);	//Copy Constructor
-		~RPN();					//Destructor
+		static std::stack<double>	pile_n;
+		static double				result;
+		RPN();						//Default Constructor
+		RPN(const RPN &copy);		//Copy Constructor
+		~RPN();						//Destructor
 
 		//Operator
 		RPN &operator=(const RPN &copy);
