@@ -34,7 +34,6 @@ class BitcoinExchange
 		float		exchangeRate(const std::string &date, float value) const;
 		bool		validDate(const std::string &date) const;
 		float		validValue(const std::string &val, char sep);
-		std::string	trim(const std::string &str);
 
 		//Struct
 		struct Data
@@ -44,9 +43,8 @@ class BitcoinExchange
 			float value;
 		};
 
-		Data	parcingLine(const std::string &line, bool &error, char seperator);
-		Data	parcingFileLine(const std::string &line, bool &error);
-		Data	parcingDatabaseLine(const std::string &line, bool &error);
+		Data	parcingFileLine(const std::string &raw_line, bool &error);
+		Data	parcingDatabaseLine(const std::string &raw_line, bool &error);
 
 		//Exception
 		class ParcingException : public std::exception
