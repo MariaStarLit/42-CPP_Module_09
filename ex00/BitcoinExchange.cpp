@@ -41,16 +41,10 @@ void	BitcoinExchange::extractDatabase(void)
 
 	std::getline(file, line);
 	std::istringstream aux(line);
-	aux >> header;
+	header = line;
 	if (header != "date,exchange_rate")
 	{
 		std::cout << RED << "Error: bad database header => " << header << RESET << std::endl;
-		throw ParcingException();
-	}
-	aux >> check_header;
-	if (!check_header.empty())
-	{
-		std::cout << RED << "Error: bad database header => " << check_header << RESET << std::endl;
 		throw ParcingException();
 	}
 	while(std::getline(file, line))
@@ -84,7 +78,7 @@ void	BitcoinExchange::extractFile(const std::string &file_name)
 	std::istringstream aux(line);
 	header = line;
 	if (header != "date | value")
-		std::cout << RED << "Error: bad input => " << header << RESET << std::endl;
+		std::cout << RED << "Error: bad header => " << header << RESET << std::endl;
 	while(std::getline(file, line))
 	{
 		Data valid = parcingFileLine(line, error_parcing);
@@ -240,6 +234,12 @@ BitcoinExchange::Data	BitcoinExchange::parcingDatabaseLine(const std::string &ra
 	float value = -1;
 
 	date = raw_line.substr(0, 10).c_str();
+	if (!validDate(date))
+	{
+		std::cout << RED << "Error: bad input => " << date << RESET << std::endl;
+		error = true;
+		return (Data("", 0));
+	}
 	if (strcmp(date.c_str(), this->prev_date.c_str()) < 0)
 	{
 		std::cout << RED << "Error: invalid date order => " << date << RESET << std::endl;
@@ -247,12 +247,7 @@ BitcoinExchange::Data	BitcoinExchange::parcingDatabaseLine(const std::string &ra
 		return (Data("", 0));
 	}
 	this->prev_date = date;
-	if (!validDate(date))
-	{
-		std::cout << RED << "Error: bad input => " << date << RESET << std::endl;
-		error = true;
-		return (Data("", 0));
-	}
+
 	if (raw_line[10] != ',')
 	{
 		std::cout << RED << "Error: bad line format." << RESET << std::endl;
