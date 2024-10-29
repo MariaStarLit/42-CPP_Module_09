@@ -21,18 +21,20 @@ class BitcoinExchange
 {
 	private:
 		std::map<std::string, float>	my_data;
+		std::string						prev_date;
+
+		BitcoinExchange(const BitcoinExchange &copy);				//Copy Constructor
+		BitcoinExchange &operator=(const BitcoinExchange &copy);	//Copy Assiment Operator
 
 	public:
 		BitcoinExchange();											//Default Constructor
-		BitcoinExchange(const BitcoinExchange &copy);				//Copy Constructor
 		~BitcoinExchange();											//Destructor
-		BitcoinExchange &operator=(const BitcoinExchange &copy);	//Copy Assiment Operator
 
 		//Member Functions
 		void		extractDatabase(void);
 		void		extractFile(const std::string &file_name);
 		float		exchangeRate(const std::string &date, float value) const;
-		bool		validDate(const std::string &date) const;
+		bool		validDate(std::string &date);
 		float		validValue(const std::string &val, char sep);
 
 		//Struct

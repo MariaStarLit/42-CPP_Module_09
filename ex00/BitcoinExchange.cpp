@@ -3,6 +3,7 @@
 //Constructores
 BitcoinExchange::BitcoinExchange()
 {
+	prev_date = "";
 	extractDatabase();
 }
 
@@ -68,7 +69,6 @@ void	BitcoinExchange::extractDatabase(void)
 	}
 }
 
-
 void	BitcoinExchange::extractFile(const std::string &file_name)
 {
 	float res;
@@ -119,7 +119,7 @@ float	BitcoinExchange::exchangeRate(const std::string &date, float value) const
 	return (resolt);
 }
 
-bool BitcoinExchange::validDate(const std::string &date) const
+bool BitcoinExchange::validDate(std::string &date)
 {
 	if (date.length() != 10)
 		return (false);
@@ -154,6 +154,7 @@ bool BitcoinExchange::validDate(const std::string &date) const
 float BitcoinExchange::validValue(const std::string &val, char sep)
 {
 	int i = 0;
+	bool flag = false;
 	if (val.empty() || val == "-" || val == "+")
 	{
 		std::cout << RED << "Error: missing a number." << RESET << std::endl;
@@ -163,8 +164,11 @@ float BitcoinExchange::validValue(const std::string &val, char sep)
 		i++;
 	while(val[i])
 	{
-		if (val[i] == '.' && i > 0)
+		if (val[i] == '.' && i > 0 && flag == false)
+		{
+			flag = true;
 			i++;
+		}
 		if (!std::isdigit(val[i]))
 		{
 			std::cout << RED << "Error: not a number." << RESET << std::endl;
@@ -231,13 +235,18 @@ BitcoinExchange::Data	BitcoinExchange::parcingFileLine(const std::string &raw_li
 BitcoinExchange::Data	BitcoinExchange::parcingDatabaseLine(const std::string &raw_line, bool &error)
 {
 	error = false;
-	//std::cout << CYAN << raw_line << RESET << std::endl;
 	std::string date, line, aux_v;
 	size_t len = raw_line.size();
 	float value = -1;
+
 	date = raw_line.substr(0, 10).c_str();
-	//std::cout << YELLOW << "date: " << date << RESET << std::endl;
-	//std::cout << YELLOW << "separator: " << raw_line[10] << RESET << std::endl;
+	if (strcmp(date.c_str(), this->prev_date.c_str()) < 0)
+	{
+		std::cout << RED << "Error: invalid date order => " << date << RESET << std::endl;
+		error = true;
+		return (Data("", 0));
+	}
+	this->prev_date = date;
 	if (!validDate(date))
 	{
 		std::cout << RED << "Error: bad input => " << date << RESET << std::endl;
@@ -247,10 +256,11 @@ BitcoinExchange::Data	BitcoinExchange::parcingDatabaseLine(const std::string &ra
 	if (raw_line[10] != ',')
 	{
 		std::cout << RED << "Error: bad line format." << RESET << std::endl;
+		error = true;
+		return (Data("", 0));
 	}
 	aux_v = raw_line.substr(11, len);
 	value = validValue(aux_v, ',');
-	//std::cout << YELLOW << "value: " << value << RESET << std::endl;
 	if (value == -1) 
 	{
 		error = true;
